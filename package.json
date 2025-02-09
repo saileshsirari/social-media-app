@@ -17,10 +17,18 @@
     "dotenv": "^16.0.0",
     "express": "^4.18.1",
     "express-validator": "^6.14.0",
-    "jsonwebtoken": "^8.5.1",
+    "firebase-admin": "^13.1.0",
+    "firebase-functions": "^6.3.1",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^6.3.2",
     "nodemon": "^2.0.16",
     "socket.io": "^4.5.1",
     "validator": "^13.7.0"
+  },
+  "overrides": {
+    "semver": "^7.5.3"
+  },
+  "engines": {
+    "node": "22"
   }
 }

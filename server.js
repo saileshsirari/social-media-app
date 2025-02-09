@@ -24,15 +24,34 @@ const io = require("socket.io")(httpServer, {
 io.use(authSocket);
 io.on("connection", (socket) => socketServer(socket));
 
+
+const { MongoClient } = require('mongodb');
+const uri =  "mongodb+srv://saileshsirari:Sai%4011235%2A@cluster0.2vi4n.mongodb.net?retryWrites=true&w=majority";
+const client = new MongoClient(uri);
+
+(async () => {
+  try {
+    await client.connect();
+    const dbRole = await client.db().command({ hello: 1 });
+    console.log(
+      `Role of database - Host: ${dbRole.me}  Is primary: ${dbRole.isWritablePrimary}`
+    );
+    await client.close(); 
+  } catch (e) {
+    console.log(' 1 here Error: ', e.message);
+  }
+})();
 mongoose.connect(
   process.env.MONGO_URI,
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => {
+    
+    console.log(`Your port is ${mongoose.connection.db}`); // undefined
     console.log("MongoDB connected");
   }
 );
 
-httpServer.listen(process.env.PORT || 4000, () => {
+httpServer.listen(process.env.PORT || 7000, () => {
   console.log("Listening");
 });
 

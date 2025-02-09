@@ -18,13 +18,13 @@ import UserEntry from "./UserEntry";
 
 const FindUsers = () => {
   const [loading, setLoading] = useState(true);
-  const [users, setUsers] = useState(null);
+  const [users, setUsers] = useState([]);
 
   const fetchUsers = async () => {
     setLoading(true);
     const data = await getRandomUsers({ size: 5 });
     setLoading(false);
-    setUsers(data);
+    setUsers(Array.isArray(data) ? data : []);
   };
 
   useEffect(() => {
@@ -57,7 +57,6 @@ const FindUsers = () => {
         {loading ? (
           <Loading />
         ) : (
-          users &&
           users.map((user) => (
             <UserEntry username={user.username} key={user.username} />
           ))

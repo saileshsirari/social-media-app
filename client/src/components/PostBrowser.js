@@ -1,9 +1,7 @@
 import { Button, Card, Link, Stack, Typography } from "@mui/material";
-import { alignProperty } from "@mui/material/styles/cssUtils";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { MdSettingsInputAntenna } from "react-icons/md";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { getPosts, getUserLikedPosts } from "../api/posts";
 import { isLoggedIn } from "../helpers/authHelper";
 import CreatePost from "./CreatePost";
@@ -39,27 +37,31 @@ const PostBrowser = (props) => {
 
     let data;
 
-    if (props.contentType === "posts") {
-      if (props.profileUser) query.author = props.profileUser.username;
-      if (searchExists) query.search = search.get("search");
+    try {
+      if (props.contentType === "posts") {
+        if (props.profileUser) query.author = props.profileUser.username;
+        if (searchExists) query.search = search.get("search");
 
-      data = await getPosts(user && user.token, query);
-    } else if (props.contentType === "liked") {
-      data = await getUserLikedPosts(
-        props.profileUser._id,
-        user && user.token,
-        query
-      );
-    }
+        data = await getPosts(user && user.token, query);
+      } else if (props.contentType === "liked") {
+        data = await getUserLikedPosts(
+          props.profileUser._id,
+          user && user.token,
+          query
+        );
+      }
 
-    if (data.data.length < 10) {
-      setEnd(true);
-    }
-
-    setLoading(false);
-    if (!data.error) {
-      setPosts([...posts, ...data.data]);
-      setCount(data.count);
+      setLoading(false);
+      if (data && !data.error) {
+        setPosts([...posts, ...data.data]);
+        setCount(data.count);
+        if (data.data.length < 10) {
+          setEnd(true);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to fetch posts:", error);
+      setLoading(false);
     }
   };
 

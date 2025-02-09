@@ -85,7 +85,7 @@ const Messages = (props) => {
   }, [messages]);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView();
+    //messagesEndRef.current?.scrollIntoView();
   };
 
   const handleSendMessage = async (content) => {

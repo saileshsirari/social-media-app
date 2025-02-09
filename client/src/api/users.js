@@ -2,6 +2,7 @@ import { BASE_URL } from "../config";
 
 const signup = async (user) => {
   try {
+    console.log("BASE_URL", BASE_URL);
     const res = await fetch(BASE_URL + "api/users/register", {
       method: "POST",
       headers: {

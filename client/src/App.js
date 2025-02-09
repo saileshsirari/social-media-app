@@ -4,6 +4,8 @@ import "react-icons/bi";
 import "react-icons/md";
 import "react-icons/bs";
 import "react-router-dom";
+import React, { Component }  from 'react';
+import ReactDOM from 'react-dom'
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 
@@ -32,6 +34,7 @@ import { io } from "socket.io-client";
 
 function App() {
   initiateSocketConnection();
+  
 
   return (
     <ThemeProvider theme={theme}>
@@ -41,6 +44,7 @@ function App() {
           <Route path="/" element={<ExploreView />} />
           <Route path="/posts/:id" element={<PostView />} />
           <Route
+           
             path="/posts/create"
             element={
               <PrivateRoute>
