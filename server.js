@@ -11,6 +11,7 @@ const comments = require("./routes/comments");
 const messages = require("./routes/messages");
 const PostLike = require("./models/PostLike");
 const Post = require("./models/Post");
+const functions = require("firebase-functions");
 
 dotenv.config();
 
@@ -29,29 +30,21 @@ const { MongoClient } = require('mongodb');
 const uri =  "mongodb+srv://saileshsirari:Sai%4011235%2A@cluster0.2vi4n.mongodb.net?retryWrites=true&w=majority";
 const client = new MongoClient(uri);
 
-(async () => {
-  try {
-    await client.connect();
-    const dbRole = await client.db().command({ hello: 1 });
-    console.log(
-      `Role of database - Host: ${dbRole.me}  Is primary: ${dbRole.isWritablePrimary}`
-    );
-    await client.close(); 
-  } catch (e) {
-    console.log(' 1 here Error: ', e.message);
-  }
-})();
+
 mongoose.connect(
   process.env.MONGO_URI,
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => {
-    
+    const dbRole =  client.db().command({ hello: 1 });
+    console.log(
+      `Role of database - Host: ${dbRole.me}  Is primary: ${dbRole.isWritablePrimary}`
+    );
     console.log(`Your port is ${mongoose.connection.db}`); // undefined
     console.log("MongoDB connected");
   }
 );
 
-httpServer.listen(process.env.PORT || 7000, () => {
+httpServer.listen(process.env.PORT_SERVER || 7000, () => {
   console.log("Listening");
 });
 
@@ -69,3 +62,6 @@ if (process.env.NODE_ENV == "production") {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
 }
+
+const apiapi = functions.https.onRequest(app); // app is Express app.
+module.exports = {apiapi}
