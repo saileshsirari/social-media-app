@@ -17,6 +17,9 @@ router.get(
   optionallyVerifyToken,
   postControllers.getUserLikedPosts
 );
+router.get("/user/data", (req, res) => {
+  res.send(`this is /api/user/data`)
+})
 router.get("/like/:postId/users", postControllers.getUserLikes);
 
 module.exports = router;
